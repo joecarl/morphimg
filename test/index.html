@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="module">
+
+			import Morphimg from '../dist/index.js';
+
+			document.addEventListener("DOMContentLoaded", function() {
+
+				const mph = new Morphimg({
+					wrapper: document.getElementById('morphimg-wr'),
+					width: 500,
+					height: 500,
+					src: '/dist/test_img/obama.png'
+				});
+
+				document.getElementById('invertbtn').addEventListener('click', () => {
+					mph.invert() 
+				});
+
+				const change_params = (evt) => {
+					const inp = evt.target;// as HTMLInputElement;
+					if (inp.id === 'force_mult') {
+						mph.force_mult = parseInt(inp.value);
+					}
+					else if (inp.id === 'focus') {
+						mph.focus_val = Math.floor(parseFloat(inp.value));
+					}
+					else if (inp.id === 'speed') {
+						mph.animation_speed = Math.floor(parseFloat(inp.value));
+						return;
+					}
+					else if (inp.id === 'uvmode') {
+						const e = evt.target;// as HTMLSelectElement;
+						mph.uvmode = parseInt(e.options[e.selectedIndex].value);//parseInt es necesario para evitar que luego haga la conversion en cada iteracion
+					}
+					mph.deform();
+				};
+				document.getElementById('force_mult').addEventListener('change', change_params);
+				document.getElementById('focus').addEventListener('change', change_params);
+				document.getElementById('speed').addEventListener('change', change_params);
+				document.getElementById('uvmode').addEventListener('change', change_params);
+				document.getElementById('deleteforces').addEventListener('click', () => {
+					mph.deleteAllForces();
+					console.log('All forces deleted!');
+				});
+
+				document.getElementById('animatebtn').addEventListener('click', () => {
+					mph.animate();
+				});
+
+				document.getElementById('stopbtn').addEventListener('click', () => {
+					mph.stopAnimation();
+				});
+
+				document.getElementById('selectimg').addEventListener('change', (evt) => {
+					const file = evt.target.files[0];
+					mph.loadImageFile(file);
+				});
+
+				const chg = document.querySelectorAll('.changeimg').forEach((inp) => {
+					inp.addEventListener('click', () => {
+						mph.img.src = inp.src;
+					});
+				});
+
+				setInterval(() => {
+					document.getElementById('numforces').innerText = mph.forces.length;
+				}, 500);
+
+				console.log('started');
+			});
+
+		</script>
+		<style>
+			.tools-row {
+				margin: 7px 0;
+			}
+		</style>
+	</head>
+	<body style="font-family: sans-serif; font-size: 14px;">
+		<div id="morphimg-wr"></div>
+		<p>
+			You can delete any force by clicking on any of its anchors and pressing del key. [numForces = <span id="numforces">0</span>]
+		</p>
+		<div class="tools-row">
+			Force intensity: <input id="force_mult" type="number" value="150"/>
+			Expansion: <input id="focus" type="number" value="300"/>
+			<input id="deleteforces" value="Delete all forces" type="button">
+		</div>
+		<div class="tools-row">
+			<input id="animatebtn" value="Animate" type="button">
+			<input id="stopbtn" value="Stop" type="button">
+			Speed: <input id="speed" type="number" value="10"/>
+		</div>
+		<div class="tools-row">
+			Deformation mode: 
+			<select id="uvmode">
+				<option value="1">Wired</option>
+				<option value="-1" selected>Inverted</option>
+			</select>
+		</div>
+		<div class="tools-row">
+			<input id="selectimg" type="file">
+			<input type="button" class="changeimg" src="/dist/test_img/obama.png" value="Obama" />
+			<input type="button" class="changeimg" src="/dist/test_img/leonardo.jpg" value="Di caprio" />
+			<input type="button" class="changeimg" src="/dist/test_img/norris1.jpg" value="Chuck Norris" />
+			<input type="button" class="changeimg" src="/dist/test_img/casey.jpg" value="Casey" />
+		</div>
+		<div class="tools-row">
+			<input id="invertbtn" value="Invert colors" type="button">
+		</div>
+	</body>
+</html>

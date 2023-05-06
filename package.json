@@ -1,0 +1,10 @@
+{
+	"name": "morphimg",
+	"version": "1.0.0",
+	"description": "A lightweight image morphing & animating tool for the web browser.",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"/dist"
+	]
+}
