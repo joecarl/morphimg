@@ -2,9 +2,17 @@
 	"name": "morphimg",
 	"version": "1.0.0",
 	"description": "A lightweight image morphing & animating tool for the web browser.",
+	"author": "José Carlos HR <joecarlhr@gmail.com>",
+	"license": "MIT",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
 		"/dist"
-	]
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/joecarl/morphimg"
+	},
+	"dependencies": {},
+	"devDependencies": {}
 }
