@@ -1,5 +1,8 @@
+import MorphimgCpanel, { IMorphimgCpanelParams } from './cpanel';
+
 interface IMorphimgParams {
 	wrapper: HTMLElement;
+	cpanel?: IMorphimgCpanelParams;
 	width: number;
 	height: number;
 	src: string;
@@ -82,6 +85,7 @@ export default class Morphimg {
 		this.overlay_ctx = overlay.getContext("2d");
 
 		this.img = new Image();
+		this.img.crossOrigin = '';
 		this.img.src = params.src;
 		this.img.onload = () => {
 			this.drawImg();
@@ -139,6 +143,10 @@ export default class Morphimg {
 				this.deform();
 			}
 		};
+
+		if (params.cpanel) {
+			new MorphimgCpanel(this, params.cpanel);
+		}
 
 	}
 
