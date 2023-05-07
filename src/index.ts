@@ -1,1 +1,1 @@
-export { default as Morphimg } from './morphimg';
+export { default } from './morphimg';
