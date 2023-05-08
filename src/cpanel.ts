@@ -99,8 +99,9 @@ export default class MorphimgCpanel {
 				const e = evt.target as HTMLSelectElement;
 				mph.uvmode = parseInt(e.options[e.selectedIndex].value);//parseInt es necesario para evitar que luego haga la conversion en cada iteracion
 			}
-			mph.deform();
+			mph.refresh();
 		};
+
 		this.elem('mph-cpanel-forcemult').addEventListener('change', change_params);
 		this.elem('mph-cpanel-focus').addEventListener('change', change_params);
 		this.elem('mph-cpanel-speed').addEventListener('change', change_params);
