@@ -1,6 +1,6 @@
 {
 	"name": "morphimg",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "A lightweight image morphing & animating tool for the web browser.",
 	"author": "José Carlos HR <joecarlhr@gmail.com>",
 	"license": "MIT",
@@ -26,6 +26,7 @@
 	},
 	"homepage": "https://github.com/joecarl/morphimg#readme",
 	"scripts": {
+		"build": "rm -rf dist && npx tsc",
 		"start": "webpack serve --mode development --config webpack.config.test.mjs",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	}
