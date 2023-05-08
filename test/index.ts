@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	const numforces = elem('numforces');
 
 	setInterval(() => {
-		numforces.innerText = '' + mph.forces.length;
+		numforces.innerText = '' + mph.getNumForces();
 	}, 500);
 
 	console.log('started');

@@ -21,16 +21,8 @@ interface IForceInc {
 }
 
 export default class Morphimg {
-
+	
 	uvmode: number = -1;
-
-	forces: IForce[] = [];
-
-	selected_force_id: number = -1;
-
-	editing: boolean = false;
-
-	moving_node: number;
 
 	force_mult: number = 150;
 
@@ -40,26 +32,30 @@ export default class Morphimg {
 
 	animation_speed: number = 10;
 
-	animating: boolean = false;
-
-	ctx: CanvasRenderingContext2D;
-
-	overlay_ctx: CanvasRenderingContext2D;
-
 	img: HTMLImageElement;
 
-	width: number;
+	private forces: IForce[] = [];
+	
+	private selectedForceIndex: number = -1;
+	
+	private editingAnchor: number = 0;
 
-	height: number;
+	private animating: boolean = false;
 
-	incMapCache: IForceInc[] = [];
+	private ctx: CanvasRenderingContext2D;
+
+	private overlayCtx: CanvasRenderingContext2D;
+
+	private width: number;
+
+	private height: number;
+
+	private incMapCache: IForceInc[] = [];
 
 
 	constructor(params: IMorphimgParams) {
 
 		const div = document.createElement('div');
-		//div.style.width = '100%';
-		//div.style.height = '100%';
 		div.style.position = 'relative';
 
 		this.width = params.width;
@@ -85,7 +81,7 @@ export default class Morphimg {
 		params.wrapper.appendChild(div);
 
 		this.ctx = canvas.getContext("2d");
-		this.overlay_ctx = overlay.getContext("2d");
+		this.overlayCtx = overlay.getContext("2d");
 
 		this.img = new Image();
 		this.img.crossOrigin = '';
@@ -98,17 +94,17 @@ export default class Morphimg {
 		let semiMapping = [];
 		overlay.addEventListener('mousemove', (evt: MouseEvent) => {
 
-			if (!this.editing) return;
-			const selectedForce = this.forces[this.selected_force_id];
+			if (!this.editingAnchor) return;
+			const selectedForce = this.forces[this.selectedForceIndex];
 			//const bbox = overlay.getBoundingClientRect();
 			const mx = evt.offsetX;// - bbox.left;
 			const my = evt.offsetY;// - bbox.top;
 			//const mx = mouse.layerX, my = mouse.layerY;
-			if (this.moving_node === 2) {
+			if (this.editingAnchor === 2) {
 				selectedForce.dest_x = mx;
 				selectedForce.dest_y = my;
 			}
-			if (this.moving_node === 1) {
+			if (this.editingAnchor === 1) {
 				selectedForce.orig_x = mx;
 				selectedForce.orig_y = my;
 			}
@@ -142,7 +138,7 @@ export default class Morphimg {
 			semiMapping = [];
 			
 			const dataLength = this.data.length / 4;
-			const selectedForce = this.forces[this.selected_force_id];
+			const selectedForce = this.forces[this.selectedForceIndex];
 		
 			for (let i = 0; i < dataLength; i++) {
 				
@@ -157,9 +153,9 @@ export default class Morphimg {
 			}
 
 		});
-		overlay.addEventListener('mouseup', () => { this.editing = false; });
+		overlay.addEventListener('mouseup', () => { this.editingAnchor = 0; });
 		overlay.addEventListener('mouseleave', () => {
-			this.overlay_ctx.clearRect(0, 0, canvas.width, canvas.height);
+			this.overlayCtx.clearRect(0, 0, canvas.width, canvas.height);
 		});
 		overlay.addEventListener('mouseenter', () => {
 			this.drawForces();
@@ -168,10 +164,10 @@ export default class Morphimg {
 		document.onkeydown = (evt) => {
 			//console.log(evt);
 			if (evt.key === 'Delete') {
-				if (this.selected_force_id === -1) return;
-				console.log('Deleting force ' + this.selected_force_id);
-				this.forces.splice(this.selected_force_id, 1);
-				this.selected_force_id = -1;
+				if (this.selectedForceIndex === -1) return;
+				console.log('Deleting force ' + this.selectedForceIndex);
+				this.forces.splice(this.selectedForceIndex, 1);
+				this.selectedForceIndex = -1;
 				this.drawForces();
 				this.refresh();
 			}
@@ -180,6 +176,13 @@ export default class Morphimg {
 		if (params.cpanel) {
 			new MorphimgCpanel(this, params.cpanel);
 		}
+
+	}
+
+
+	getNumForces() {
+
+		return this.forces.length;
 
 	}
 
@@ -211,7 +214,6 @@ export default class Morphimg {
 
 	createForce(mx: number, my: number) {
 
-		this.editing = true;
 		//vamos a comprobar si hemos hecho click sobre una fuerza existente, en ese caso solo la seleccionaremos.
 		
 		const numForces = this.forces.length;
@@ -219,14 +221,14 @@ export default class Morphimg {
 		for (let k = 0; k < numForces; k++) {
 			const force = this.forces[k];
 			if (Math.abs(mx - force.orig_x) < clickRadius && Math.abs(my - force.orig_y) < clickRadius) {
-				this.selected_force_id = k;
-				this.moving_node = 1;
+				this.selectedForceIndex = k;
+				this.editingAnchor = 1;
 				this.drawForces();
 				return;
 			}
 			if (Math.abs(mx - force.dest_x) < clickRadius && Math.abs(my - force.dest_y) < clickRadius) {
-				this.selected_force_id = k;
-				this.moving_node = 2;
+				this.selectedForceIndex = k;
+				this.editingAnchor = 2;
 				this.drawForces();
 				return;
 			}
@@ -239,8 +241,8 @@ export default class Morphimg {
 			dest_y: my,
 		});
 
-		this.selected_force_id = this.forces.length - 1;
-		this.moving_node = 2;
+		this.selectedForceIndex = this.forces.length - 1;
+		this.editingAnchor = 2;
 		this.drawForces();
 
 	};
@@ -248,7 +250,7 @@ export default class Morphimg {
 
 	drawForces() {
 		
-		const oCtx = this.overlay_ctx;
+		const oCtx = this.overlayCtx;
 
 		oCtx.clearRect(0, 0, this.width, this.height);
 		this.forces.forEach((force, id) => {
@@ -261,7 +263,7 @@ export default class Morphimg {
 			oCtx.stroke();
 			oCtx.beginPath();
 			oCtx.setLineDash([5, 10]);
-			oCtx.strokeStyle = id === this.selected_force_id ? '#FDD' : '#859';
+			oCtx.strokeStyle = id === this.selectedForceIndex ? '#FDD' : '#859';
 			oCtx.moveTo(force.orig_x, force.orig_y);
 			oCtx.lineTo(force.dest_x, force.dest_y);
 			oCtx.stroke();
@@ -403,7 +405,7 @@ export default class Morphimg {
 	deleteAllForces() {
 		
 		this.forces = [];
-		this.selected_force_id = -1;
+		this.selectedForceIndex = -1;
 		this.refresh();
 
 	}
