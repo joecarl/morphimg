@@ -52,6 +52,8 @@ export default class Morphimg {
 
 	private incMapCache: IForceInc[] = [];
 
+	private data: Uint8ClampedArray;
+
 
 	constructor(params: IMorphimgParams) {
 
@@ -197,10 +199,12 @@ export default class Morphimg {
 
 		const imageData = ctx.getImageData(0, 0, width, height);
 		this.data = imageData.data;
+
 	}
 
 
 	invert() {
+
 		const imageData = this.ctx.getImageData(0, 0, this.width, this.height);
 		const data = imageData.data;
 		for (let i = 0; i < data.length; i += 4) {
@@ -209,7 +213,9 @@ export default class Morphimg {
 			data[i + 2] = 255 - data[i + 2]; // blue
 		}
 		this.ctx.putImageData(imageData, 0, 0);
+
 	}
+
 
 	createForce(mx: number, my: number) {
 
@@ -244,7 +250,7 @@ export default class Morphimg {
 		this.editingAnchor = 2;
 		this.drawForces();
 
-	};
+	}
 
 
 	drawForces() {
@@ -282,6 +288,7 @@ export default class Morphimg {
 		});
 	}
 
+
 	calcForceIncs(x: number, y: number, force: IForce) {
 		
 		const uvmode = this.uvmode;
@@ -300,10 +307,14 @@ export default class Morphimg {
 
 	}
 
+
 	refresh() {
+
 		this.calcForcesMapping();
 		this.render();
+
 	}
+
 
 	calcForcesMapping() {
 		
@@ -332,9 +343,9 @@ export default class Morphimg {
 			this.incMapCache.push({ x: incx, y: incy });
 
 		}
+
 	}
 
-	data: Uint8ClampedArray;
 
 	render() {
 
@@ -378,6 +389,7 @@ export default class Morphimg {
 
 	}
 
+
 	animate() {
 
 		if (this.animating) return;
@@ -411,9 +423,11 @@ export default class Morphimg {
 
 
 	stopAnimation() {
+
 		this.animating = false;
 		this.percentage = 1;
 		//clearInterval(animation);
+		
 	}
 
 
