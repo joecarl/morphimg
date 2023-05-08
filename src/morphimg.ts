@@ -88,7 +88,7 @@ export default class Morphimg {
 		this.img.src = params.src;
 		this.img.onload = () => {
 			this.drawImg();
-			console.log('Image loaded');
+			//console.log('Image loaded');
 		};
 
 		let semiMapping = [];
@@ -162,10 +162,9 @@ export default class Morphimg {
 		});
 
 		document.onkeydown = (evt) => {
-			//console.log(evt);
 			if (evt.key === 'Delete') {
 				if (this.selectedForceIndex === -1) return;
-				console.log('Deleting force ' + this.selectedForceIndex);
+				//console.log('Deleting force ' + this.selectedForceIndex);
 				this.forces.splice(this.selectedForceIndex, 1);
 				this.selectedForceIndex = -1;
 				this.drawForces();
