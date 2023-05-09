@@ -27,6 +27,7 @@
 	"homepage": "https://github.com/joecarl/morphimg#readme",
 	"scripts": {
 		"build": "rm -rf dist && npx tsc",
+		"build-demo": "webpack --mode production --config webpack.config.test.mjs",
 		"start": "webpack serve --mode development --config webpack.config.test.mjs",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	}
