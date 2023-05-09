@@ -197,7 +197,9 @@ export default class Morphimg {
 
 		const imgRatio = img.width / img.height;
 		ctx.clearRect(0, 0, width, height);
-		ctx.drawImage(img, 0, 0, imgRatio * height, height);
+		const targetWidth = imgRatio * height;
+		const targetX = (width -targetWidth) / 2;
+		ctx.drawImage(img, targetX, 0, targetWidth, height);
 
 		const imageData = ctx.getImageData(0, 0, width, height);
 		this.data = imageData.data;
