@@ -194,8 +194,10 @@ export default class Morphimg {
 		const img = this.img;
 		const width = this.width;
 		const height = this.height;
+
+		const imgRatio = img.width / img.height;
 		ctx.clearRect(0, 0, width, height);
-		ctx.drawImage(img, 0, 0, img.width * width / img.height, height);
+		ctx.drawImage(img, 0, 0, imgRatio * height, height);
 
 		const imageData = ctx.getImageData(0, 0, width, height);
 		this.data = imageData.data;
@@ -427,7 +429,7 @@ export default class Morphimg {
 		this.animating = false;
 		this.percentage = 1;
 		//clearInterval(animation);
-		
+
 	}
 
 
