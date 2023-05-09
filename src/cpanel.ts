@@ -7,7 +7,7 @@ interface ITestImg {
 
 export interface IMorphimgCpanelParams {
 	wrapper: HTMLElement;
-	testImgs: ITestImg[];
+	testImgs?: ITestImg[];
 }
 
 export default class MorphimgCpanel {
@@ -22,7 +22,7 @@ export default class MorphimgCpanel {
 
 		this.mph = mph;
 		this.wrapper = params.wrapper;
-		this.testImgs = params.testImgs;
+		this.testImgs = params.testImgs ?? [];
 
 		this.setHTML();
 		this.setupEvents();
