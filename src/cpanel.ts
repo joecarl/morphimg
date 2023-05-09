@@ -49,12 +49,9 @@ export default class MorphimgCpanel {
 				<option value="-1" selected>Inverted</option>
 			</select>
 		</div>
-		
 		<div class="tools-row" id="mph-cpanel-files-row">
-			<input id="mph-cpanel-selectimg" type="file">
-			
+			<label class="button">Select custom file ...<input id="mph-cpanel-selectimg" type="file" style="display: none"></label>
 		</div>
-		
 		<div class="tools-row">
 			<input id="mph-cpanel-invertbtn" value="Invert colors" type="button">
 		</div>
