@@ -13,6 +13,11 @@ export default params => {
 
 		entry: './test/index.ts',
 
+		output: {
+			path: path.join(__dirname, "/test-build/"),
+			filename: "bundle.js",
+		},
+
 		devServer: {
 			hot: true,
 			liveReload: false,
