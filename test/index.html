@@ -2,14 +2,60 @@
 <html>
 	<head>
 		<style>
-			.tools-row {
-				margin: 7px 0;
+			body, html {
+				min-height: 100%;
 			}
+			body {
+				background-image: linear-gradient(45deg, #6da8ff, #c287ff);
+				font-family: sans-serif;
+				font-size: 14px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				color: #fff;
+			}
+			h1 {
+				--shadow-color: #0d3e72;
+				font-size: 5rem;
+				color: #e2f2ff;
+				text-shadow: 4.5px 3px 0 var(--shadow-color), 3px 2px 0 var(--shadow-color), 1.5px 1px 0 var(--shadow-color);
+			}
+			.tools-row {
+				padding: 5px 0;
+				display: flex;
+				gap: 5px;
+				align-items: center;
+				border-bottom: 1px solid #fff5;
+			}
+			input, select, button, .button {
+				border-radius: 5px;
+				border: none;
+				padding: 5px 8px;
+				outline: none;
+				color: #000b;
+			}
+
+			button, .button, input[type=button] {
+				background-color: white;
+				&:hover {
+					background-color: #c287ff;
+				}
+			}
+			canvas:first-child {
+				border-radius: 4px;
+				border: 1px solid #00000042 !important;
+			}
+			input[type=number] {
+				width: 100px;
+			}
+
 		</style>
 	</head>
-	<body style="font-family: sans-serif; font-size: 14px;">
+	<body>
+		<h1>morph<span style="color: #50a7ff; font-weight: bolder;">img</span></h1>
+
 		<div id="morphimg-wr"></div>
-		<p>
+		<p style="font-size: 0.8rem; padding: 20px 0;">
 			You can delete any force by clicking on any of its anchors and pressing del key. [numForces = <span id="numforces">0</span>]
 		</p>
 		<div id="morphimg-cpanel-wr"></div>
