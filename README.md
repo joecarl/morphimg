@@ -2,6 +2,8 @@
 
 A lightweight image morphing & animating tool for the web browser.
 
+Try it out in the [demo playground](https://copinstar.com/morphimg).
+
 ## Basic usage
 
 ```js
