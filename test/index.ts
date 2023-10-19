@@ -10,7 +10,7 @@ function elem(id: string) {
 	return elem;
 
 }
-const imgPrefix =  'https://copinstar.com/img/morphimg_test';
+const imgPrefix =  'https://games.copinstar.com/img/morphimg_test';
 
 document.addEventListener("DOMContentLoaded", function() {
 
