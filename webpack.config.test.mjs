@@ -30,7 +30,7 @@ export default params => {
 				{
 					test: /\.tsx?$/,
 					use: {
-						loader: 'ts-loader',
+						loader: 'esbuild-loader',
 					},
 					exclude: /node_modules/,
 				},
