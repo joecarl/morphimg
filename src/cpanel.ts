@@ -1,4 +1,4 @@
-import Morphimg from './morphimg';
+import { Morphimg } from './morphimg';
 
 interface ITestImg {
 	label: string;
@@ -10,7 +10,7 @@ export interface IMorphimgCpanelParams {
 	testImgs?: ITestImg[];
 }
 
-export default class MorphimgCpanel {
+export class MorphimgCpanel {
 
 	mph: Morphimg;
 
@@ -77,10 +77,10 @@ export default class MorphimgCpanel {
 		const mph = this.mph;
 
 		this.elem('mph-cpanel-invertbtn').addEventListener('click', () => {
-			mph.invert() 
+			mph.invert()
 		});
 
-		const change_params = (evt: InputEvent) => {
+		const changeParams = (evt: InputEvent) => {
 			const inp = evt.target as HTMLInputElement;
 			if (inp.id === 'mph-cpanel-forcemult') {
 				mph.force_mult = parseInt(inp.value);
@@ -99,10 +99,10 @@ export default class MorphimgCpanel {
 			mph.refresh();
 		};
 
-		this.elem('mph-cpanel-forcemult').addEventListener('change', change_params);
-		this.elem('mph-cpanel-focus').addEventListener('change', change_params);
-		this.elem('mph-cpanel-speed').addEventListener('change', change_params);
-		this.elem('mph-cpanel-uvmode').addEventListener('change', change_params);
+		this.elem('mph-cpanel-forcemult').addEventListener('change', changeParams);
+		this.elem('mph-cpanel-focus').addEventListener('change', changeParams);
+		this.elem('mph-cpanel-speed').addEventListener('change', changeParams);
+		this.elem('mph-cpanel-uvmode').addEventListener('change', changeParams);
 		this.elem('mph-cpanel-deleteforces').addEventListener('click', () => {
 			mph.deleteAllForces();
 			console.log('All forces deleted!');
@@ -133,7 +133,6 @@ export default class MorphimgCpanel {
 			const file = selectImgFile.files[0];
 			mph.loadImageFile(file);
 		});
-
 
 	}
 }

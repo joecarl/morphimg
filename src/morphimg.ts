@@ -1,4 +1,4 @@
-import MorphimgCpanel, { IMorphimgCpanelParams } from './cpanel';
+import { MorphimgCpanel, IMorphimgCpanelParams } from './cpanel';
 
 interface IMorphimgParams {
 	wrapper: HTMLElement;
@@ -20,8 +20,8 @@ interface IForceInc {
 	y: number;
 }
 
-export default class Morphimg {
-	
+export class Morphimg {
+
 	uvmode: number = -1;
 
 	force_mult: number = 150;
@@ -35,9 +35,9 @@ export default class Morphimg {
 	img: HTMLImageElement;
 
 	private forces: IForce[] = [];
-	
+
 	private selectedForceIndex: number = -1;
-	
+
 	private editingAnchor: number = 0;
 
 	private animating: boolean = false;
@@ -66,14 +66,14 @@ export default class Morphimg {
 		const canvas = document.createElement('canvas');
 		canvas.width = this.width;
 		canvas.height = this.height;
-		canvas.style.border = '1px solid black'; 
+		canvas.style.border = '1px solid black';
 		canvas.style.zIndex = '2';
 
 		const overlay = document.createElement('canvas');
 		overlay.width = this.width;
 		overlay.height = this.height;
-		overlay.style.cursor = 'pointer'; 
-		overlay.style.position = 'absolute'; 
+		overlay.style.cursor = 'pointer';
+		overlay.style.position = 'absolute';
 		overlay.style.left = '0';
 		overlay.style.top = '0';
 		overlay.style.zIndex = '3';
@@ -113,21 +113,21 @@ export default class Morphimg {
 			this.drawForces();
 
 			this.incMapCache = [];
-			
+
 			const dataLength = this.data.length / 4;
 
 			for (let i = 0; i < dataLength; i++) {
-				
+
 				const y = Math.floor(i / this.width);
 				const x = i - y * this.width;
 				const fIncs = this.calcForceIncs(x, y, selectedForce);
-				
+
 				this.incMapCache.push({
 					x: semiMapping[i].x + fIncs.x,
 					y: semiMapping[i].y + fIncs.y,
 				});
 			}
-			
+
 			this.render();
 
 		});
@@ -138,16 +138,16 @@ export default class Morphimg {
 			this.createForce(mx, my);
 			this.calcForcesMapping();
 			semiMapping = [];
-			
+
 			const dataLength = this.data.length / 4;
 			const selectedForce = this.forces[this.selectedForceIndex];
-		
+
 			for (let i = 0; i < dataLength; i++) {
-				
+
 				const y = Math.floor(i / this.width);
 				const x = i - y * this.width;
 				const fIncs = this.calcForceIncs(x, y, selectedForce);
-				
+
 				semiMapping.push({
 					x: this.incMapCache[i].x - fIncs.x,
 					y: this.incMapCache[i].y - fIncs.y,
@@ -189,7 +189,7 @@ export default class Morphimg {
 
 
 	drawImg() {
-		
+
 		const ctx = this.ctx;
 		const img = this.img;
 		const width = this.width;
@@ -198,7 +198,7 @@ export default class Morphimg {
 		const imgRatio = img.width / img.height;
 		ctx.clearRect(0, 0, width, height);
 		const targetWidth = imgRatio * height;
-		const targetX = (width -targetWidth) / 2;
+		const targetX = (width - targetWidth) / 2;
 		ctx.drawImage(img, targetX, 0, targetWidth, height);
 
 		const imageData = ctx.getImageData(0, 0, width, height);
@@ -224,7 +224,7 @@ export default class Morphimg {
 	createForce(mx: number, my: number) {
 
 		//vamos a comprobar si hemos hecho click sobre una fuerza existente, en ese caso solo la seleccionaremos.
-		
+
 		const numForces = this.forces.length;
 		const clickRadius = 7;
 		for (let k = 0; k < numForces; k++) {
@@ -258,7 +258,7 @@ export default class Morphimg {
 
 
 	drawForces() {
-		
+
 		const oCtx = this.overlayCtx;
 
 		oCtx.clearRect(0, 0, this.width, this.height);
@@ -294,13 +294,13 @@ export default class Morphimg {
 
 
 	calcForceIncs(x: number, y: number, force: IForce) {
-		
+
 		const uvmode = this.uvmode;
 		const force_mult = this.force_mult;
 		const focus_val = this.focus_val;
 
 		const force_x = force.dest_x - force.orig_x;
-		const force_y = force.dest_y - force.orig_y;	
+		const force_y = force.dest_y - force.orig_y;
 		const dist = Math.sqrt(Math.pow(x - force.orig_x, 2) + Math.pow(y - force.orig_y, 2));
 		//const dist = Math.sqrt(Math.pow(x - force.orig_x - force.dx, 2) + Math.pow(y - force.orig_y - force.dy, 2) );
 		const morph = uvmode * force_mult / (dist * dist / 5 + focus_val);
@@ -321,7 +321,7 @@ export default class Morphimg {
 
 
 	calcForcesMapping() {
-		
+
 		const width = this.width;
 		const dataLength = this.data.length / 4;
 		const forces = this.forces;
@@ -337,7 +337,7 @@ export default class Morphimg {
 			let incy = 0;
 
 			for (let k = 0; k < numForces; k++) {
-				
+
 				const fIncs = this.calcForceIncs(x, y, forces[k]);
 				incx += fIncs.x;
 				incy += fIncs.y;
@@ -362,7 +362,7 @@ export default class Morphimg {
 		const newdata = newImageData.data;
 
 		const dataLength = data.length / 4;
-		
+
 		const percentage = this.percentage;
 
 		for (let i = 0; i < dataLength; i++) {
@@ -373,12 +373,12 @@ export default class Morphimg {
 			const mapping = this.incMapCache[i];
 			let newx = x + percentage * mapping.x;
 			let newy = y + percentage * mapping.y;
-		
+
 			newx = Math.max(Math.min(Math.floor(newx), width - 1), 0);
 			newy = Math.max(Math.min(Math.floor(newy), height - 1), 0);
 
-			
-			const offset_pos = (y * width + x) * 4 ;
+
+			const offset_pos = (y * width + x) * 4;
 			const offset_pos_n = (newy * width + newx) * 4;
 			for (let k = 0; k < 4; k++)
 				if (this.uvmode === 1)
@@ -388,7 +388,7 @@ export default class Morphimg {
 			//map[2 * (y * width + x)] = newx;
 			//map[2 * (y * width + x) + 1] = newy;
 		}
-		
+
 		ctx.putImageData(newImageData, 0, 0);
 
 	}
@@ -418,7 +418,7 @@ export default class Morphimg {
 
 
 	deleteAllForces() {
-		
+
 		this.forces = [];
 		this.selectedForceIndex = -1;
 		this.refresh();

@@ -1,4 +1,4 @@
-import Morphimg from '../src/index';
+import { Morphimg } from '../src/index';
 
 function elem(id: string) {
 
@@ -10,9 +10,9 @@ function elem(id: string) {
 	return elem;
 
 }
-const imgPrefix =  'https://games.copinstar.com/img/morphimg_test';
+const imgPrefix = 'https://games.copinstar.com/img/morphimg_test';
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
 
 	const mph = new Morphimg({
 		wrapper: elem('morphimg-wr'),
@@ -37,5 +37,5 @@ document.addEventListener("DOMContentLoaded", function() {
 	}, 500);
 
 	console.log('started');
-	
+
 });
