@@ -14,12 +14,12 @@
 		"url": "https://github.com/joecarl/morphimg"
 	},
 	"devDependencies": {
-		"esbuild-loader": "^4.0.2",
-		"html-webpack-plugin": "^5.5.1",
-		"typescript": "^5.0.4",
-		"webpack": "^5.82.0",
-		"webpack-cli": "^5.1.0",
-		"webpack-dev-server": "^4.15.0"
+		"esbuild-loader": "^4.2.0",
+		"html-webpack-plugin": "^5.6.0",
+		"typescript": "^5.5.2",
+		"webpack": "^5.92.1",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^5.0.4"
 	},
 	"bugs": {
 		"url": "https://github.com/joecarl/morphimg/issues"
