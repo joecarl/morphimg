@@ -7,7 +7,7 @@ Try it out in the [demo playground](https://games.copinstar.com/morphimg).
 ## Basic usage
 
 ```js
-import Morphimg from 'morphimg';
+import { Morphimg } from 'morphimg';
 
 const mph = new Morphimg({
     wrapper: document.getElementById('morphimg-wr'),
